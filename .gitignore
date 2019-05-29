@@ -8,3 +8,4 @@ _ide_helper.php
 # MAC
 .DS_Store
 */.DS_Store
+.idea
