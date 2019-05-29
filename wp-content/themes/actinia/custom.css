@@ -1,0 +1,30 @@
+@font-face{ font-family: 'AdobeHeitiStd-Regular'; src:url('font/AdobeHeitiStd-Regular.otf'); }
+@font-face{ font-family: 'GOTHIC_0'; src:url('font/GOTHIC_0.TTF'); }
+
+body{ font-family: 'GOTHIC_0','AdobeHeitiStd-Regular'; }
+ul li{ list-style: none; }
+a{ text-decoration: none; }
+
+/*.container{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
+@media (min-width:768px)
+{
+	.container{width:750px}
+}
+@media (min-width:992px){
+	.container{width:970px}
+}
+@media (min-width:1200px){
+	.container{width:1170px}
+}*/
+.top{ width: 100%; overflow: hidden; padding-top:15px; }
+.logo{ float: left; padding-left: 5em; }
+.logo img{ height: 140px; }
+.top-right{ float: right; padding-right:1em; }
+.top-search{ float: left; padding:45px 15px; }
+.language{ float: left; padding:60px 0; line-height: 20px; }
+.language ul li{ float: left; }
+.language ul li:first-child{ content: '|'; padding:0 15px; }
+.language ul li a span{ color: #000; padding-left: 5px; }
+.language ul li a:hover span,.language ul li span.current{ color: #aa1787; }
+
+

@@ -1,0 +1,1 @@
+[30-Jan-2019 17:05:59 America/Denver] PHP Fatal error:  Call to undefined function add_action() in /home1/newzeal7/public_html/paint/wp-content/plugins/hello.php on line 60

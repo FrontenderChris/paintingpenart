@@ -1,0 +1,64 @@
+@font-face{ font-family: 'AdobeHeitiStd-Regular'; src:url('../font/AdobeHeitiStd-Regular.otf'); }
+@font-face{ font-family: 'msyh'; src:url('../font/msyh.ttf'); }
+@font-face{ font-family: 'GOTHIC_0'; src:url('../font/GOTHIC_0.TTF'); }
+
+html{ font-size:62.5%; }
+body{  font-family: 'GOTHIC_0'; text-align: center; background: #fff; font-size: 1.4rem; }
+*{ margin: 0; padding: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+ul li{ list-style: none;}
+img{ border:0; }
+a,a:focus,a:hover{ text-decoration: none; color: none; }
+.h1, .h2, .h3, h1, h2, h3,.h4, .h5, .h6, h4, h5, h6{ margin:0; /*font-weight: normal;*/ font-weight: bold; line-height: 1; }
+p,ul,ol,label,hr{ margin:0; }
+input{ outline: none;}
+
+@font-face {font-family: 'iconfont';
+    src: url('./iconfont/iconfont.eot');
+    src: url('./iconfont/iconfont.eot?#iefix') format('embedded-opentype'),
+    url('./iconfont/iconfont.woff') format('woff'),
+    url('./iconfont/iconfont.ttf') format('truetype'),
+    url('./iconfont/iconfont.svg#iconfont') format('svg');
+}
+
+[class^="icon-"]:before, [class*=" icon-"]:before{
+    font-family:"iconfont" !important;
+    font-style: normal;
+    font-weight: 400;
+    speak: none;
+    display: inline-block;
+    text-decoration: none!important;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    margin-left: .2em;
+    font-size: 1.4rem;
+}
+
+.icon-play:before { content: "\e676"; }
+
+.icon-arrowcarrotleftalt:before { content: "\e63d"; }
+
+.icon-email:before { content: "\e602"; }
+
+.icon-location:before { content: "\e620"; }
+
+.icon-search:before { content: "\e63e"; }
+
+.icon-facebook:before { content: "\e69e"; }
+
+.icon-arrow_carrot-right_alt:before { content: "\e7d2"; }
+
+.icon-telephone:before { content: "\e6a7"; }
+
+
+/**********************************************/
+.aligncenter { display: block; margin-left: auto; margin-right: auto; }
+.aligncenter p.wp-caption-text {
+display: block;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+}
