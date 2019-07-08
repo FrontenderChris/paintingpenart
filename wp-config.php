@@ -29,7 +29,7 @@ define('DB_USER', 'root');
 
 /** MySQL database password */
 // define('DB_PASSWORD', 'paint2018');
-define('DB_PASSWORD', 'MC2.mysql');
+define('DB_PASSWORD', 'MC2.mysql2019');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
