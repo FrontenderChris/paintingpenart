@@ -4,6 +4,7 @@
  */
 
 // Don't load directly
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -18,6 +19,7 @@ if ( ! class_exists( 'Tribe__Date_Utils' ) ) {
 		const MERIDIANFORMAT        = 'A';
 		const DBDATEFORMAT          = 'Y-m-d';
 		const DBDATETIMEFORMAT      = 'Y-m-d H:i:s';
+		const DBTZDATETIMEFORMAT    = 'Y-m-d H:i:s O';
 		const DBTIMEFORMAT          = 'H:i:s';
 		const DBYEARMONTHTIMEFORMAT = 'Y-m';
 
@@ -25,6 +27,34 @@ if ( ! class_exists( 'Tribe__Date_Utils' ) ) {
 		private static $localized_months_short = array();
 		private static $localized_weekdays     = array();
 		private static $localized_months       = array();
+
+		/**
+		 * Try to format a Date to the Default Datepicker format
+		 *
+		 * @since  4.5.12
+		 *
+		 * @param  string      $date       Original Date that came from a datepicker
+		 * @param  string|int  $datepicker Datepicker format
+		 * @return string
+		 */
+		public static function maybe_format_from_datepicker( $date, $datepicker = null ) {
+			if ( ! is_numeric( $datepicker ) ) {
+				$datepicker = tribe_get_option( 'datepickerFormat' );
+			}
+
+			if ( is_numeric( $datepicker ) ) {
+				$datepicker = self::datepicker_formats( $datepicker );
+			}
+
+			$default_datepicker = self::datepicker_formats( 0 );
+
+			// If the current datepicker is the default we don't care
+			if ( $datepicker === $default_datepicker ) {
+				return $date;
+			}
+
+			return self::datetime_from_format( $datepicker, $date );
+		}
 
 		/**
 		 * Get the datepicker format, that is used to translate the option from the DB to a string
@@ -36,18 +66,30 @@ if ( ! class_exists( 'Tribe__Date_Utils' ) ) {
 
 			// The datepicker has issues when a period separator and no leading zero is used. Those formats are purposefully omitted.
 			$formats = array(
-				'Y-m-d',
-				'n/j/Y',
-				'm/d/Y',
-				'j/n/Y',
-				'd/m/Y',
-				'n-j-Y',
-				'm-d-Y',
-				'j-n-Y',
-				'd-m-Y',
-				'Y.m.d',
-				'm.d.Y',
-				'd.m.Y',
+				0     => 'Y-m-d',
+				1     => 'n/j/Y',
+				2     => 'm/d/Y',
+				3     => 'j/n/Y',
+				4     => 'd/m/Y',
+				5     => 'n-j-Y',
+				6     => 'm-d-Y',
+				7     => 'j-n-Y',
+				8     => 'd-m-Y',
+				9     => 'Y.m.d',
+				10    => 'm.d.Y',
+				11    => 'd.m.Y',
+				'm0'  => 'Y-m',
+				'm1'  => 'n/Y',
+				'm2'  => 'm/Y',
+				'm3'  => 'n/Y',
+				'm4'  => 'm/Y',
+				'm5'  => 'n-Y',
+				'm6'  => 'm-Y',
+				'm7'  => 'n-Y',
+				'm8'  => 'm-Y',
+				'm9'  => 'Y.m',
+				'm10' => 'm.Y',
+				'm11' => 'm.Y',
 			);
 
 			if ( is_null( $translate ) ) {
@@ -380,7 +422,7 @@ if ( ! class_exists( 'Tribe__Date_Utils' ) ) {
 		 * @return string
 		 */
 		public static function reformat( $dt_string, $new_format ) {
-			$timestamp = strtotime( $dt_string );
+			$timestamp = self::is_timestamp( $dt_string ) ? $dt_string : strtotime( $dt_string );
 			$revised   = date( $new_format, $timestamp );
 
 			return $revised ? $revised : '';
@@ -1139,7 +1181,127 @@ if ( ! class_exists( 'Tribe__Date_Utils' ) ) {
 			// Why so simple? Let's handle other cases as those come up. We have tests in place!
 			return str_replace( '\\\\', '\\', $date_format );
 		}
-		// @codingStandardsIgnoreEnd
-	}
 
+		/**
+		 * Builds a date object from a given datetime and timezone.
+		 *
+		 * @since 4.9.5
+		 *
+		 * @param string|DateTime|int      $datetime      A `strtotime` parse-able string, a DateTime object or
+		 *                                                a timestamp; defaults to `now`.
+		 * @param string|DateTimeZone|null $timezone      A timezone string, UTC offset or DateTimeZone object;
+		 *                                                defaults to the site timezone; this parameter is ignored
+		 *                                                if the `$datetime` parameter is a DatTime object.
+		 * @param bool                     $with_fallback Whether to return a DateTime object even when the date data is
+		 *                                                invalid or not; defaults to `true`.
+		 *
+		 * @return DateTime|false A DateTime object built using the specified date, time and timezone; if `$with_fallback`
+		 *                        is set to `false` then `false` will be returned if a DateTime object could not be built.
+		 */
+		public static function build_date_object( $datetime = 'now', $timezone = null, $with_fallback = true ) {
+			if ( $datetime instanceof DateTime ) {
+				return clone $datetime;
+			}
+
+			if ( class_exists('DateTimeImmutable') && $datetime instanceof DateTimeImmutable ) {
+				// Return the mutable version of the date.
+				return new DateTime( $datetime->format( 'Y-m-d H:i:s' ), $datetime->getTimezone() );
+			}
+
+			$timezone_object = null;
+
+			try {
+				// PHP 5.2 will not throw an exception but will generate an error.
+				$utc = new DateTimeZone( 'UTC' );
+
+				if ( self::is_timestamp( $datetime ) ) {
+					// Timestamps timezone is always UTC.
+					return new DateTime( '@' . $datetime, $utc );
+				}
+
+				$timezone_object = Tribe__Timezones::build_timezone_object( $timezone );
+
+				set_error_handler( 'tribe_catch_and_throw' );
+				$date = new DateTime( $datetime, $timezone_object );
+				restore_error_handler();
+			} catch ( Exception $e ) {
+				if ( $timezone_object === null ) {
+					$timezone_object = Tribe__Timezones::build_timezone_object( $timezone );
+				}
+
+				return $with_fallback
+					? new DateTime( 'now', $timezone_object )
+					: false;
+			}
+
+			return $date;
+		}
+
+		/**
+		 * Validates a date string to make sure it can be used to build DateTime objects.
+		 *
+		 * @since 4.9.5
+		 *
+		 * @param string $date The date string that should validated.
+		 *
+		 * @return bool Whether the date string can be used to build DateTime objects, and is thus parse-able by functions
+		 *              like `strtotime`, or not.
+		 */
+		public static function is_valid_date( $date ) {
+			return self::build_date_object( $date, null, false ) instanceof DateTime;
+		}
+
+		/**
+		 * Returns the DateTime object representing the start of the week for a date.
+		 *
+		 * @since 4.9.21
+		 *
+		 * @param string|int|\DateTime $date          The date string, timestamp or object.
+		 * @param int|null             $start_of_week The number representing the start of week day as handled by
+		 *                                            WordPress: `0` (for Sunday) through `6` (for Saturday).
+		 *
+		 * @return array An array of objects representing the week start and end days, or `false` if the
+		 *                        supplied date is invalid. The timezone of the returned object is set to the site one.
+		 *                        The week start has its time set to `00:00:00`, the week end will have its time set
+		 *                        `23:59:59`.
+		 */
+		public static function get_week_start_end( $date, $start_of_week = null ) {
+			$week_start = static::build_date_object( $date );
+			$week_start->setTime( 0, 0, 0 );
+
+			// `0` (for Sunday) through `6` (for Saturday); we correct Sunday to stick w/ ISO notation.
+			$week_start_day = null !== $start_of_week ? (int) $start_of_week : (int) get_option( 'start_of_week', 0 );
+			if ( 0 === $week_start_day ) {
+				$week_start_day = 7;
+			}
+			// `1` (for Monday) through `7` (for Sunday).
+			$date_day = (int) $week_start->format( 'N' );
+
+			/*
+			 * From the PHP docs, the `W` format stands for:
+			 * - ISO-8601 week number of year, weeks starting on Monday
+			 * We compensate for weeks starting on Sunday here.
+			 */
+			$week_offset = array_sum(
+				[
+					// If the week starts on Sunday move to the next week.
+					0 === $week_start_day ? 1 : 0,
+					// If the current date is before the start of the week, move back a week.
+					$date_day < $week_start_day ? - 1 : 0,
+				]
+			);
+			$week_start->setISODate(
+				(int) $week_start->format( 'o' ),
+				(int) $week_start->format( 'W' ) + $week_offset,
+				$week_start_day
+			);
+
+			$week_end = clone $week_start;
+			// Add 6 days, then move at the end of the day.
+			$week_end->add( new DateInterval( 'P6D' ) );
+			$week_end->setTime( 23, 59, 59 );
+
+			return [ $week_start, $week_end ];
+		}
+	}
 }

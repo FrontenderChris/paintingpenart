@@ -11,14 +11,14 @@
 		<h3><?php _e('A Step-by-Step Guide to Import the Demo Content','rara-one-click-demo-import'); ?></h3>
 		<li><?php 
 		$wpreset = '<a href="https://wordpress.org/plugins/wp-reset" target="_blank">WP Reset</a>';
-		$doc = '<a href="https://raratheme.com/documentation/" target="_blank">documentation</a>';
-		$support = '<a href="https://raratheme.com/support-ticket/" target="_blank">contact our support team</a>';
+		$doc = '<a href="https://rarathemes.com/documentation/" target="_blank">documentation</a>';
+		$support = '<a href="https://rarathemes.com/support-ticket/" target="_blank">contact our support team</a>';
 		echo sprintf( __( 'Download the demo file from your theme %1$s page. If you are unable to download the demo file, please %2$s.','rara-one-click-demo-import' ) , $doc, $support  );?>
 		</li>
 		<li>
 			<?php 
-			$link = '<a href="https://raratheme.com/" target="_blank">Rara Theme</a>';
-			$demos = '<a href="https://raratheme.com/" target="_blank">Theme Demos</a>';
+			$link = '<a href="https://rarathemes.com/" target="_blank">Rara Theme</a>';
+			$demos = '<a href="https://rarathemes.com/" target="_blank">Theme Demos</a>';
 			$bold = '<b>';
 			$boldclose = '</b>';
 			echo sprintf( __( 'Click on the %1$sUpload Demo File%2$s button above.', 'rara-one-click-demo-import' ), $bold, $boldclose ); ?>

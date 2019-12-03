@@ -33,14 +33,29 @@ class Tribe__Cache implements ArrayAccess {
 	public function set( $id, $value, $expiration = 0, $expiration_trigger = '' ) {
 		$key = $this->get_id( $id, $expiration_trigger );
 
-		if ( $expiration == self::NON_PERSISTENT ) {
+		/**
+		 * Filters the expiration for cache objects to provide the ability
+		 * to make non-persistent objects be treated as persistent.
+		 *
+		 * @param int    $expiration         Cache expiration time.
+		 * @param string $id                 Cache ID.
+		 * @param mixed  $value              Cache value.
+		 * @param string $expiration_trigger Action that triggers automatic expiration.
+		 * @param string $key                Unique cache key based on Cache ID and expiration trigger last run time.
+		 *
+		 * @since 4.8
+		 */
+		$expiration = apply_filters( 'tribe_cache_expiration', $expiration, $id, $value, $expiration_trigger, $key );
+
+		if ( self::NON_PERSISTENT === $expiration ) {
 			$group      = 'tribe-events-non-persistent';
-			$this->non_persistent_keys[] = $key;
 			$expiration = 1;
+
+			// Add so we know what group to use in the future.
+			$this->non_persistent_keys[] = $key;
 		} else {
 			$group = 'tribe-events';
 		}
-
 
 		return wp_cache_set( $key, $value, $group, $expiration );
 	}
@@ -58,15 +73,41 @@ class Tribe__Cache implements ArrayAccess {
 	}
 
 	/**
-	 * @param string $id
-	 * @param string $expiration_trigger
+	 * Get cached data. Optionally set data if not previously set.
+	 *
+	 * Note: When a default value or callback is specified, this value gets set in the cache.
+	 *
+	 * @param string $id                 The key for the cached value.
+	 * @param string $expiration_trigger Optional. Hook to trigger cache invalidation.
+	 * @param mixed  $default            Optional. A default value or callback that returns a default value.
+	 * @param int    $expiration         Optional. When the default value expires, if it gets set.
+	 * @param mixed  $args               Optional. Args passed to callback.
 	 *
 	 * @return mixed
 	 */
-	public function get( $id, $expiration_trigger = '' ) {
+	public function get( $id, $expiration_trigger = '', $default = false, $expiration = 0, $args = array() ) {
 		$group = in_array( $id, $this->non_persistent_keys ) ? 'tribe-events-non-persistent' : 'tribe-events';
+		$value = wp_cache_get( $this->get_id( $id, $expiration_trigger ), $group );
 
-		return wp_cache_get( $this->get_id( $id, $expiration_trigger ), $group );
+		// Value found.
+		if ( false !== $value ) {
+			return $value;
+		}
+
+		if ( is_callable( $default ) ) {
+			// A callback has been specified.
+			$value = call_user_func_array( $default, $args );
+		} else {
+			// Default is a value.
+			$value = $default;
+		}
+
+		// No need to set a cache value to false since non-existent values return false.
+		if ( false !== $value ) {
+			$this->set( $id, $value, $expiration, $expiration_trigger );
+		}
+
+		return $value;
 	}
 
 	/**
@@ -116,23 +157,31 @@ class Tribe__Cache implements ArrayAccess {
 	}
 
 	/**
-	 * @param string $action
+	 * Returns the time of an action last occurrence.
 	 *
-	 * @return int
+	 * @param string $action The action to return the time for.
+	 *
+	 * @since 4.9.14 Changed the return value type from `int` to `float`.
+	 *
+	 * @return float The time (microtime) an action last occurred, or the current microtime if it never occurred.
 	 */
 	public function get_last_occurrence( $action ) {
-		return (int) get_option( 'tribe_last_' . $action, time() );
+		return (float) get_option( 'tribe_last_' . $action, microtime( true ) );
 	}
 
 	/**
-	 * @param string $action
-	 * @param int    $timestamp
+	 * Sets the time (microtime) for an action last occurrence.
+	 *
+	 * @since 4.9.14 Changed the type of the time stored from an `int` to a `float`.
+	 *
+	 * @param string $action The action to record the last occurrence of.
+	 * @param int    $timestamp The timestamp to assign to the action last occurrence or the current time (microtime).
 	 */
 	public function set_last_occurrence( $action, $timestamp = 0 ) {
 		if ( empty( $timestamp ) ) {
-			$timestamp = time();
+			$timestamp = microtime( true );
 		}
-		update_option( 'tribe_last_' . $action, (int) $timestamp );
+		update_option( 'tribe_last_' . $action, (float) $timestamp );
 	}
 
 	/**

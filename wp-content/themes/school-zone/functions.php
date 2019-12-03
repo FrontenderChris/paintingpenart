@@ -649,3 +649,4 @@ function school_zone_get_sections(){
     }
     return $enabled_section;
 }
+add_filter('xmlrpc_enabled', '__return_false');

@@ -648,5 +648,5 @@ msgid "raratheme"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://www.raratheme.com"
+msgid "https://www.rarathemes.com"
 msgstr ""

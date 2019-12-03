@@ -24,8 +24,8 @@
 
 		<p class="about-description">
 			<?php 
-			$link = '<a href="https://raratheme.com/">Rara Theme</a>';
-			$doc = '<a href="https://raratheme.com/documentation/" target="_blank">documentation</a>';
+			$link = '<a href="https://rarathemes.com/">Rara Theme</a>';
+			$doc = '<a href="https://rarathemes.com/documentation/" target="_blank">documentation</a>';
 			$bold = '<b>';
 			$boldclose = '</b>';
 			$wpreset = '<a href="https://wordpress.org/plugins/wp-reset" target="_blank">WP Reset</a>';

@@ -21,7 +21,7 @@
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 // define('DB_NAME', 'newzeal7_paint');
-define('DB_NAME', 'wordpress');
+define('DB_NAME', 'paintingschool_db');
 
 /** MySQL database username */
 // define('DB_USER', 'newzeal7_paint');
@@ -29,7 +29,7 @@ define('DB_USER', 'root');
 
 /** MySQL database password */
 // define('DB_PASSWORD', 'paint2018');
-define('DB_PASSWORD', 'MC2.mysql2019');
+define('DB_PASSWORD', 'NZac.mysql');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');

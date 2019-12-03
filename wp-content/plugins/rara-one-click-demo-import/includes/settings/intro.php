@@ -11,7 +11,7 @@ echo
 <li>Upload Max Filesize <span>32M</span></li>
 </ul>';
 
-$link = '<a href="https://raratheme.com/blog/best-wordpress-hosting/" target="_blank">10 best WordPress Hosting</a>';
+$link = '<a href="https://rarathemes.com/blog/best-wordpress-hosting/" target="_blank">10 best WordPress Hosting</a>';
 
 echo '<p>'.sprintf( __( 'Please request your hosting to give you the above configuration and then try the demo import again. If you are constantly having an issue with the hosting, you may want to consider to move to better WordPress hosting. We have reviewed %1$s. If the issue is not fixed after the above configuration, please let us know for the further assistance.','rara-one-click-demo-import'), $link).'</p>';
 

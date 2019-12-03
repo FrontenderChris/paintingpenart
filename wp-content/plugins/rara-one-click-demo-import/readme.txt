@@ -1,9 +1,10 @@
 ﻿=== Rara One Click Demo Import ===
 Contributors: raratheme
 Tags: import, content, demo, data, widgets, settings
-Requires at least: 4.0.0
-Tested up to: 4.9.6
-Stable tag: 1.2.6
+Requires at least: 4.4.0
+Tested up to: 5.2
+Requires PHP: 5.6
+Stable tag: 1.2.7
 License: GPLv3 or later
 
 Make your website look like the live demo of the theme with a click!
@@ -22,11 +23,11 @@ Once installed and activated, Rara One Click Demo Import will be accessible thro
 
 If you use Premium themes made by Rara Themes, go to Pro Theme Demo Import tab and just click on ‘Import Now’ button and your website will look like the demo of the activated theme in no time.
 
-If you use free themes made by Rara Themes, download the demo files from your [Theme Documentation](https://raratheme.com/documentation/) page, upload it using ‘Upload Demo File’ button on this plugin, and click Import Now. As simple as that.
+If you use free themes made by Rara Themes, download the demo files from your [Theme Documentation](https://rarathemes.com/documentation/) page, upload it using ‘Upload Demo File’ button on this plugin, and click Import Now. As simple as that.
 
-You can find the detail documentation [here](https://raratheme.com/blog/import-demo-content-rara-themes/)
+You can find the detail documentation [here](https://rarathemes.com/blog/import-demo-content-rara-themes/)
 
-If you need help, contact our support team [here](https://raratheme.com/support-ticket/).
+If you need help, contact our support team [here](https://rarathemes.com/support-ticket/).
 
 This plugin is based on the 'Theme Demo Import' plugin by Themely, https://wordpress.org/plugins/theme-demo-import/
 
@@ -112,51 +113,54 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 == Changelog ==
 
-= 1.0.0 =
-* INITIAL RELEASE
+= 1.2.7 =
+* LINKS UPDATED
 
-= 1.0.1 =
-* CLASSES ADDED
-* FILTERS ADDED
+= 1.2.6 =
+* UPLOAD BUTTON ISSUE FIXED
 
-= 1.0.2 =
-* CODE CLEANUP
+= 1.2.5 =
+* INFORMATION ADDED
 
-= 1.0.3 =
-* PLUGIN DEPENDENCY CHECK
+= 1.2.1 =
 * COMPATIBILITY TEST
-
-= 1.0.4 =
-* COMPATIBILITY TEST
-
-= 1.0.5 =
-* RARA THEME DEPENDENT
-
-= 1.0.6 =
-* DEMO IMPORT PROCESS EASED
-
-= 1.0.7 =
-* CODE CLEAN UP
-* SOME  OPTIONAL FUNCTIONS REMOVED
-
-= 1.0.8 =
-* CODE CLEAN UP & DESIGN FIXES
-
-= 1.0.9 =
-* WARNING MESSAGE FIXED
-
-= 1.1.0 =
-* WARNING MESSAGE FIXED
 
 = 1.2.0 =
 * MAJOR UPDATE
 * DEMO FILE ZIP NAME STANDARDS
 
-= 1.2.1 =
+= 1.1.0 =
+* WARNING MESSAGE FIXED
+
+= 1.0.9 =
+* WARNING MESSAGE FIXED
+
+= 1.0.8 =
+* CODE CLEAN UP & DESIGN FIXES
+
+= 1.0.7 =
+* CODE CLEAN UP
+* SOME  OPTIONAL FUNCTIONS REMOVED
+
+= 1.0.6 =
+* DEMO IMPORT PROCESS EASED
+
+= 1.0.5 =
+* RARA THEME DEPENDENT
+
+= 1.0.4 =
 * COMPATIBILITY TEST
 
-= 1.2.5 =
-* INFORMATION ADDED
+= 1.0.3 =
+* PLUGIN DEPENDENCY CHECK
+* COMPATIBILITY TEST
 
-= 1.2.6 =
-* UPLOAD BUTTON ISSUE FIXED
+= 1.0.2 =
+* CODE CLEANUP
+
+= 1.0.1 =
+* CLASSES ADDED
+* FILTERS ADDED
+
+= 1.0.0 =
+* INITIAL RELEASE

@@ -63,7 +63,7 @@ class RRDI_Theme_Demo_Import {
 		add_action( 'init', array( $this, 'setup' ), 5 );
 		$get_theme = wp_get_theme();
 
-		if( $get_theme->get( 'AuthorURI' ) == 'http://raratheme.com/' || $get_theme->get( 'AuthorURI' ) == 'https://raratheme.com/' || $get_theme->get( 'AuthorURI' ) == 'http://raratheme.com' || $get_theme->get( 'AuthorURI' ) == 'https://raratheme.com' )
+		if( $get_theme->get( 'AuthorURI' ) == 'http://raratheme.com/' || $get_theme->get( 'AuthorURI' ) == 'https://raratheme.com/' || $get_theme->get( 'AuthorURI' ) == 'http://raratheme.com' || $get_theme->get( 'AuthorURI' ) == 'https://raratheme.com' || $get_theme->get( 'AuthorURI' ) == 'http://rarathemes.com/' || $get_theme->get( 'AuthorURI' ) == 'https://rarathemes.com/' || $get_theme->get( 'AuthorURI' ) == 'http://rarathemes.com' || $get_theme->get( 'AuthorURI' ) == 'https://rarathemes.com' )
 		{
 			add_action( 'admin_menu', array( $this, 'create_plugin_page' ) );
 		}
@@ -110,7 +110,7 @@ class RRDI_Theme_Demo_Import {
 	 */
 	private function includes() {
 		$get_theme = wp_get_theme();
-		if( $get_theme->get( 'AuthorURI' ) == 'http://raratheme.com/' || $get_theme->get( 'AuthorURI' ) == 'https://raratheme.com/' || $get_theme->get( 'AuthorURI' ) == 'http://raratheme.com' || $get_theme->get( 'AuthorURI' ) == 'https://raratheme.com' )
+		if( $get_theme->get( 'AuthorURI' ) == 'http://raratheme.com/' || $get_theme->get( 'AuthorURI' ) == 'https://raratheme.com/' || $get_theme->get( 'AuthorURI' ) == 'http://raratheme.com' || $get_theme->get( 'AuthorURI' ) == 'https://raratheme.com' || $get_theme->get( 'AuthorURI' ) == 'http://rarathemes.com/' || $get_theme->get( 'AuthorURI' ) == 'https://rarathemes.com/' || $get_theme->get( 'AuthorURI' ) == 'http://rarathemes.com' || $get_theme->get( 'AuthorURI' ) == 'https://rarathemes.com' )
 		{
 			$td = $get_theme->get( 'TextDomain' ).'-demo-content'; 
 			if ( strpos($td, 'pro') === false )
